@@ -1,0 +1,57 @@
+.home{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+    max-width: 400px;
+}
+
+.balance-box{
+    width: 95%;
+    background-color: rgb(61, 61, 61);
+    border-radius: 20px;
+    display: flex;
+    flex-direction:column;
+    padding: 20px;
+}
+
+.balance-span{
+    color: rgb(161, 161, 161);
+    display: flex;
+    justify-content: right;
+}
+.left{
+    display: flex;
+    justify-content: left;
+}
+
+.balance-bal{
+    display: flex;
+    justify-content: center;
+    align-items:flex-end;
+    font-size: 50px;
+    font-weight: 900;
+}
+.SAR-img{
+    position: relative;
+    bottom: 10px;
+    width: 40px;
+    height: 40px;
+}
+.halalah{
+    font-size: 25px;
+    color: rgb(185, 185, 185);
+    position: relative;
+    bottom: 10px;
+    left: 5px;
+}
+.left img{
+    width: 20px;
+    height: 20px;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    position: relative;
+    top: 3px;
+}

@@ -1,0 +1,76 @@
+a:focus{
+    color: inherit;
+}
+a:hover{
+    color: inherit;
+}
+button {
+  all: unset;
+}
+
+button:focus {
+  outline: revert;
+}
+.navbar {
+  width: 85%;
+  background-color: #3b3f42;
+  position: absolute;
+  left: 50%;
+  bottom: 10px;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  border-radius: 20px;
+  max-width: 400px;
+}
+
+.nav-btn {
+    /* height: 100%; */
+    background-color: none;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b6b6b6;
+    border-radius: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+
+}
+
+.nav-btn:hover{
+  cursor: pointer;
+  color: white;
+}
+@keyframes nav-active {
+  from {background-color: #3b3f42;}
+  to {background-color: #4672fe;}
+}
+@keyframes nav-unactive {
+  from {background-color: #4672fe;}
+  to {background-color: #3b3f42;}
+}
+.active{
+  background-color: #4672fe;
+  border-radius: 20px;
+  animation-name: nav-active;
+  animation-duration: 0.2s;
+}
+.unactive{
+  background-color: #3b3f42;
+  border-radius: 20px;
+  animation-name: nav-unactive;
+  animation-duration: 0.2s;
+}
+
+
+
+  .home-icon{
+    width:40px;
+  }
+  .img-white img{
+    /* -webkit-filter: brightness(1.2); */
+    filter: brightness(1.5);
+  }

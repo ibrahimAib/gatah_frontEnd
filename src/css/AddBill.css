@@ -1,0 +1,83 @@
+.add-bill{
+    position:absolute;
+    z-index: 10;
+    width: 400px;
+    height: 100vh;
+    animation: show 0.1s;
+    background-color: #1e2024;
+}
+
+.add-bill-form{
+    width: 80%;
+    min-height: 150px;
+    border-radius: 20px;
+    border: solid 0.5px rgb(107, 107, 107);
+    height:fit-content;
+    background-color: rgb(34, 34, 34, 0.3);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 3px 3px 15px 0 rgb(27, 27, 27);
+    max-height: 50vh;
+    overflow: scroll;
+
+}
+.add-bill-form input{
+    background-color: #3b3f42;
+    border: none;
+    height: 30px;
+    border-radius: 10px;
+    padding-right: 10px;
+    color: rgb(192, 192, 192);
+}
+
+.add-bill-form input:focus{
+    outline: none;
+}
+
+@keyframes show {
+    from{
+        background-color: rgb(34, 34, 34, 0);
+
+    }
+    to{    background-color: rgb(34, 34, 34, 0.5);
+    }
+}
+
+
+.add-btn-box{
+    display: flex;
+    padding: 10px;
+    width: 100%;
+}
+
+.close-form{
+    
+    margin-right: 50px;
+    position: relative;
+    top: 10px;
+}
+
+.addBillSinglItem{
+    display: flex;
+    flex-direction: column;
+    margin-top: 15px;
+    padding-bottom: 10px;
+    border-bottom: solid 0.3px rgb(78, 78, 78);
+}
+
+.addItemBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3b3f42;
+    width: 100px;
+    height: 35px;
+    margin: 20px auto 0 auto;
+    border-radius: 5px;
+}
+
+.addItemBtn:hover{
+    cursor: pointer;
+    background-color:#39576d;
+}
