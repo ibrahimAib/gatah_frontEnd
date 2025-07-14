@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "../css/AddBill.css";
 import { submitBill } from "../server/api";
 import { usePurchesesContext } from "../contexts/PurchesesContex";
@@ -15,9 +15,13 @@ function AddBill() {
     submitBill(billListAdding);
     setBillListAdding([{ title: "", price: 0 }]);
     setAddBillForm(false);
-    setReloadPercheses('sd')
+    setReloadPercheses("sd");
   }
+  const inputRef = useRef();
 
+  const handleClick = () => {
+    inputRef.current.select();
+  };
   return (
     <>
       <div className="testDiv"></div>
@@ -42,6 +46,8 @@ function AddBill() {
                     name="itemTitle"
                     id=""
                     value={item.title}
+                    onClick={handleClick}
+                    ref={inputRef}
                     onChange={(e) => {
                       const newList = [...billListAdding];
                       newList[ind].title = e.target.value;
@@ -68,7 +74,7 @@ function AddBill() {
                 onClick={() =>
                   setBillListAdding([
                     ...billListAdding,
-                    { title: "", qty: 1, price: 0 },
+                    { title: "الاسم", qty: 1, price: 0 },
                   ])
                 }
               >
