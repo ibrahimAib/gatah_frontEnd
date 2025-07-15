@@ -10,12 +10,12 @@ function Balance({ balanceR, balanceH }) {
       <div className="balance-bal">
         <span className="halalah">{`${safeBalanceH}. `}</span>
         <span>{safeBalanceR}</span>
-        <img className="SAR-img" src="/public/saudic.png" alt="" />
+        <img className="SAR-img" src="saudic.png" alt="" />
       </div>
       <div className="balance-span left">
         <span>الباقي:</span>
         <span>{8000 - safeBalanceR}</span>
-        <img className="SAR-img" src="/public/saudic.png" alt="" />
+        <img className="SAR-img" src="saudic.png" alt="" />
       </div>
     </div>
   );

@@ -1,32 +1,24 @@
-const URL = "https://darkgrey-viper-985923.hostingersite.com/api/v1/admin/";
-const login_URL = "https://darkgrey-viper-985923.hostingersite.com/api/login/";
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN")
   ? `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
   : "";
+const USER_PHONE = localStorage.getItem("userphone")
+  ? localStorage.getItem("userphone")
+  : "";
+const RESPONCE_STSTUS = localStorage.getItem("RESPONCE_STSTUS")
+  ? localStorage.getItem("RESPONCE_STSTUS")
+  : "";
+if (ACCESS_TOKEN == "" || USER_PHONE == "" || RESPONCE_STSTUS != 200) {
+  window.location.href = "http://127.0.0.1:5501/admin/login.html";
+}
+const URL = "https://darkgrey-viper-985923.hostingersite.com/api/v1/admin/";
+
 let bill_requesets = [];
 let gatah_requesets = [];
 let tickets = [];
 let isLoading = true;
 let counter = 0;
 let title = "";
-login();
 
-async function login() {
-  const response = await fetch(login_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      phone: "0533301365",
-      password: "123456",
-    }),
-  });
-  let data = await response.json();
-  localStorage.setItem("ACCESS_TOKEN", data.token);
-  localStorage.setItem("userphone", data.phone);
-  localStorage.setItem("RESPONCE_STSTUS", 200);
-}
 async function getDataRequeset(type) {
   isLoading = true;
   const response = await fetch(`${URL}${type}`, {
@@ -63,7 +55,6 @@ async function approveRequest(gatah_id, card) {
       Authorization: ACCESS_TOKEN,
     },
   });
-  console.log();
   if (response.ok) {
     const card_const = document.getElementById(card.id);
     if (card_const) {
@@ -156,48 +147,44 @@ async function loader() {
   }
 }
 
-// loader();
-// let intervalID;
+loader();
+let intervalID;
 
-// function startChecking() {
-//   // نشغل الـ setInterval فقط إذا ما كان شغال
-//   if (!intervalID) {
-//     intervalID = setInterval(async () => {
-//       let fresh_gatah_request = await getDataRequeset("gatah-request");
-//       let fresh_bill_request = await getDataRequeset("bill-request");
+function startChecking() {
+  // نشغل الـ setInterval فقط إذا ما كان شغال
+  if (!intervalID) {
+    intervalID = setInterval(async () => {
+      let fresh_gatah_request = await getDataRequeset("gatah-request");
+      let fresh_bill_request = await getDataRequeset("bill-request");
 
-//       if (
-//         fresh_gatah_request.length != gatah_requesets.length ||
-//         bill_requesets.length != fresh_bill_request.length
-//       ) {
-//         document
-//           .getElementById("container")
-//           .classList.remove("container_message");
+      if (
+        fresh_gatah_request.length != gatah_requesets.length ||
+        bill_requesets.length != fresh_bill_request.length
+      ) {
+        document
+          .getElementById("container")
+          .classList.remove("container_message");
 
-//         await loader();
-//       }
-//     }, 2000);
-//   }
-// }
+        await loader();
+      }
+    }, 2000);
+  }
+}
 
-// function stopChecking() {
-//   clearInterval(intervalID);
-//   intervalID = null;
-// }
+function stopChecking() {
+  clearInterval(intervalID);
+  intervalID = null;
+}
 
-// // حدث يتفعل لما المستخدم يغير التبويبة أو يصغّر الصفحة
-// document.addEventListener("visibilitychange", () => {
-//   if (document.hidden) {
-//     stopChecking();
-//   } else {
-//     startChecking();
-//   }
-// });
+// حدث يتفعل لما المستخدم يغير التبويبة أو يصغّر الصفحة
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopChecking();
+  } else {
+    startChecking();
+  }
+});
 
-// // نشغل التحديث أول ما تفتح الصفحة
-// startChecking();
-// async function ddd() {
-//   let gatahrees = await getDataRequeset("bill-request");
-//   console.log(gatahrees);
-// }
-// ddd();
+// نشغل التحديث أول ما تفتح الصفحة
+startChecking();
+

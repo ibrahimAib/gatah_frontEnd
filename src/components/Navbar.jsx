@@ -6,16 +6,16 @@ function NavBar(){
     return (
     <div className="navbar">
         <Link to='/'
-        className={`nav-btn ${location == '/' ? 'active' : 'unactive'} `}><img className='home-icon' src="/public/home.png" alt="" /></Link>
+        className={`nav-btn ${location == '/' ? 'active' : 'unactive'} `}><img className='home-icon' src="home.png" alt="" /></Link>
         
         <Link to='/paylist'  
         className={`nav-btn ${location == '/paylist' ? 'active img-white' : 'unactive'} `}>
-            <img src="/public/saudic.png" width="30px" alt="" />
+            <img src="saudic.png" width="30px" alt="" />
         </Link>
 
         <Link to='/purchases' 
         className={`nav-btn ${location == '/purchases' ? 'active' : 'unactive'} `}>
-            <img src="/public/purchases.png" width="30px" alt="" />
+            <img src="purchases.png" width="30px" alt="" />
         </Link>
     </div>
     )

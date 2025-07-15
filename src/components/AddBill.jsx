@@ -13,7 +13,7 @@ function AddBill() {
   };
   function saveBill() {
     submitBill(billListAdding);
-    setBillListAdding([{ title: "", price: 0 }]);
+    setBillListAdding([{ title: "الغرض", price: 0 }]);
     setAddBillForm(false);
     setReloadPercheses("sd");
   }
@@ -24,7 +24,6 @@ function AddBill() {
   };
   return (
     <>
-      <div className="testDiv"></div>
       {showBillForm && (
         <div className="add-bill">
           <div className="w-100 f-c-c-c">

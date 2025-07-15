@@ -1,6 +1,7 @@
 const API_Key = "16749c97239c9277dfcf8c8936ceac22";
-const FRONTEND_URL = "http://localhost:5173/";
-const BASE_API_URL = "http://127.0.0.1:8000/";
+const FRONTEND_URL =
+  "https://palegoldenrod-caterpillar-546590.hostingersite.com/";
+const BASE_API_URL = "https://darkgrey-viper-985923.hostingersite.com/";
 const API_URL_V1 = `${BASE_API_URL}api/v1/`;
 const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN")
   ? `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
