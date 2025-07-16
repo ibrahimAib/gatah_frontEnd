@@ -22,7 +22,12 @@ export const PurchesesProvider = ({ children }) => {
     };
     loadBills();
   }, [reloadPercheses]);
-  const value = { purchasesList, setReloadPercheses, isLoading };
+  const value = {
+    purchasesList,
+    setReloadPercheses,
+    isLoading,
+    setPurchasesList,
+  };
 
   return (
     <PurchesesContext.Provider value={value}>

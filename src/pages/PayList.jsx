@@ -25,7 +25,7 @@ function PayList() {
       <Title title={`قطة شهر ${currentMounth}:`} img="saudic" />
       {
         <>
-          <div>
+          <div className="pay-puttons">
             {payButtons.map((element, index) => (
               <button
                 className="payMonthsGatah"

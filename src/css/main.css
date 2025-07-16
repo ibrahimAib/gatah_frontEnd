@@ -23,12 +23,10 @@ a {
 .main{
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     align-items: center;
     padding-left: 18px;
     padding-right: 18px;
-    padding-top: 10px;
-    height: 80vh;
+    height: 92vh;
     max-width: 400px;
 }
 

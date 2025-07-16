@@ -13,11 +13,7 @@ function GroupList({
   const isCurrentMounth = monthOrder == "current";
   const location = useLocation().pathname;
 
-  
-
   const payButton = (name, user_id, date) => {
-    
-
     return (
       <button name={name} onClick={() => payRequest(user_id, date)}>
         <img src="pay.png" alt="" />
@@ -28,10 +24,27 @@ function GroupList({
   return (
     <>
       <div className="label">
-        <span>{`قطة شهر ${month}:`}</span>
+        <span>
+          {month == "القطات الغير مسددة"
+            ? "القطات الغير مسددة"
+            : `قطة شهر ${month}:`}
+        </span>
       </div>
 
-      <div className={`list-group ${monthOrder} ${home}`}>
+      <div
+        className={`list-group ${monthOrder} ${home} ${
+          monthOrder == "current" ? "list-group-active" : ""
+        }`}
+        onClick={(e) => {
+          // Remove the class from all elements
+          document.querySelectorAll(".list-group").forEach((el) => {
+            el.classList.remove("list-group-active");
+          });
+
+          // Add the class to the clicked element
+          e.currentTarget.classList.add("list-group-active");
+        }}
+      >
         {[...groupList].reverse().map((menubar, index) => {
           const shouldShow =
             isCurrentMounth || (!isCurrentMounth && menubar.isPaid != "paid");

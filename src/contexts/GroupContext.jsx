@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, use, useContext, useEffect, useState } from "react";
 import { getGatah, getPastGatahs, submitGatah } from "../server/api";
 
 const GroupListContext = createContext();
@@ -9,6 +9,8 @@ export const GroupListProvider = ({ children }) => {
   const [groupList, setGroupList] = useState([]);
   const [previousGroupList, setPreviousGroupList] = useState([]);
   const [allUnPaidPasstMonths, setAllUnPaidPasstMonths] = useState([]);
+  const [allUnPaid, setAllUnPaid] = useState([]);
+
   const [currentDate, setCurrentDate] = useState("");
   const [pastDate, setPastDate] = useState("");
   const [currentMounth, setCurrentMounth] = useState();
@@ -21,7 +23,6 @@ export const GroupListProvider = ({ children }) => {
     useState(false);
   const [isAllUnPaidPasstMonthsLoading, setIsAllUnPaidPasstMonthsLoading] =
     useState(false);
-
   const [updatePayButtons, setUpdatePayButtons] = useState(1);
   // get time ===============================================
   useEffect(() => {
@@ -90,7 +91,7 @@ export const GroupListProvider = ({ children }) => {
 
   useEffect(() => {
     const loadAllUnPaidPasstMonths = async (month, setter, setIsLoading) => {
-      setIsLoading(true)
+      setIsLoading(true);
       try {
         let groupListResult = await getPastGatahs(month);
         const statusOrder = { review: 0, unpaid: 1 };
@@ -101,10 +102,14 @@ export const GroupListProvider = ({ children }) => {
       } catch (err) {
         console.log(err);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     };
     if (currentDate)
-      loadAllUnPaidPasstMonths(currentDate, setAllUnPaidPasstMonths,setIsAllUnPaidPasstMonthsLoading);
+      loadAllUnPaidPasstMonths(
+        currentDate,
+        setAllUnPaidPasstMonths,
+        setIsAllUnPaidPasstMonthsLoading
+      );
   }, [currentDate, updatePayButtons]);
 
   useEffect(() => {
@@ -122,6 +127,14 @@ export const GroupListProvider = ({ children }) => {
       setGroupList(sortedArray);
     }
   }, [groupList]);
+
+  useEffect(() => {
+    setAllUnPaid(
+      [...groupList, ...previousGroupList, ...allUnPaidPasstMonths].filter(
+        (item) => item.isPaid !== "paid"
+      )
+    );
+  }, [groupList, previousGroupList, allUnPaidPasstMonths]);
 
   const payRequest = async (user_id, date) => {
     let body = {
@@ -144,6 +157,8 @@ export const GroupListProvider = ({ children }) => {
     isAllUnPaidPasstMonthsLoading,
     payButtons,
     payRequest,
+    allUnPaid,
+    setAllUnPaid
   };
 
   return (

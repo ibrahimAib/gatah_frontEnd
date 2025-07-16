@@ -20,18 +20,8 @@ function Home() {
   }, []);
 
   const balanceH = 0;
-  const {
-    groupList,
-    setGroupList,
-    previousGroupList,
-    setPreviousGroupList,
-    lastMounth,
-    currentMounth,
-    allUnPaidPasstMonths,
-    isGroupListLoading,
-    isPreviousGroupListLoading,
-    isAllUnPaidPasstMonthsLoading,
-  } = useGroupListContext();
+  const { allUnPaid, setAllUnPaid, currentMounth, isGroupListLoading } =
+    useGroupListContext();
   return (
     <>
       <Title title="الرئيسية" img="home" alt="" />
@@ -44,43 +34,12 @@ function Home() {
             <Loading />
           ) : (
             <GroupList
-              groupList={groupList}
-              monthOrder="last"
-              setGroupList={setGroupList}
+              groupList={allUnPaid}
+              monthOrder=""
+              allLiset={true}
+              setGroupList={setAllUnPaid}
               home="home-page-group"
-              month={currentMounth}
-            />
-          )}
-          {isPreviousGroupListLoading ? (
-            !isGroupListLoading ? (
-              <Loading />
-            ) : (
-              ""
-            )
-          ) : (
-            <GroupList
-              groupList={previousGroupList}
-              monthOrder="previous"
-              setGroupList={setPreviousGroupList}
-              month={lastMounth}
-              home="home-page-group-previous"
-            />
-          )}
-          {allUnPaidPasstMonths.length == 0 ? (
-            ""
-          ) : isAllUnPaidPasstMonthsLoading ? (
-            !isPreviousGroupListLoading ? (
-              <Loading />
-            ) : (
-              ""
-            )
-          ) : (
-            <GroupList
-              groupList={allUnPaidPasstMonths}
-              monthOrder="previous"
-              setGroupList={setPreviousGroupList}
-              month={lastMounth - 1 + " " + "وماقبل"}
-              home="home-page-group-previous"
+              month={'القطات الغير مسددة'}
             />
           )}
         </Link>

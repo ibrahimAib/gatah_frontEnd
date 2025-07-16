@@ -14,14 +14,11 @@ button:focus {
 .navbar {
   width: 85%;
   background-color: #3b3f42;
-  position: absolute;
-  left: 50%;
-  bottom: 10px;
-  transform: translateX(-50%);
   display: flex;
   justify-content: space-between;
-  height: 60px;
-  border-radius: 20px;
+  height: 10vh;
+  border-radius: 20px 20px 0px 0px;
+
   max-width: 400px;
 }
 
@@ -54,13 +51,13 @@ button:focus {
 }
 .active{
   background-color: #4672fe;
-  border-radius: 20px;
+  border-radius: 20px 20px 0px 0px;
   animation-name: nav-active;
   animation-duration: 0.2s;
 }
 .unactive{
   background-color: #3b3f42;
-  border-radius: 20px;
+  border-radius: 20px 20px 0px 0px;
   animation-name: nav-unactive;
   animation-duration: 0.2s;
 }

@@ -5,12 +5,16 @@ button {
 button:focus {
 outline: revert;
 }
+.purchases-container{
+    width: 100%;
+    height: 68vh;
+}
 
 .purchases{
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    height: 99%;
     width: 100%;
     overflow: scroll;
 
@@ -19,14 +23,18 @@ outline: revert;
     display: flex;
     justify-content: center;
     width: 100%;
+    margin-bottom: 10px;
 }
 .purchases-item{
     background-color: rgb(61, 61, 61);
     padding: 10px;
     width: 100%;
     border-radius: 20px;
-
-
+}
+.add-btn-box{
+    display: flex;
+    width: 100%;
+    height: 5vh;
 }
 
 .purchases-item-title{
@@ -69,3 +77,62 @@ outline: revert;
 }
 
 
+.bill-delete-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    width: 35px;
+    height: 35px;
+    background-color: rgb(85, 85, 85);
+    margin-bottom: 5px;
+}
+@keyframes fadeZoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.delete-confirmation-bg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e2024;
+  width: 100%;
+  height: 100%;
+  animation: fadeZoomIn 0.3s ease-out;
+}
+
+.delete-confirmation-box{
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(61, 61, 61);
+    width: 90%;
+    height:  100px;
+    border-radius: 15px;
+    font-size: 20px;
+}
+.delete-confirmation-btns-box{
+    width: 150px;
+    display: flex;
+    justify-content: space-between;
+}
+.delete-confirmation-box button{
+    text-align: center;
+    background-color: rgb(233, 62, 62);
+    height:  35px;
+    width: 60px;
+    border-radius: 5px;
+}
+
+.gray{
+  background-color: gray !important;
+}

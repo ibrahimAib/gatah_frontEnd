@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import "../css/AddBill.css";
 import { submitBill } from "../server/api";
 import { usePurchesesContext } from "../contexts/PurchesesContex";
@@ -11,42 +11,42 @@ function AddBill() {
   const addBillButton = () => {
     setAddBillForm(true);
   };
-  function saveBill() {
-    submitBill(billListAdding);
+  async function saveBill() {
+    let localResponce = await submitBill(billListAdding);
+    if (localResponce == "erorr") {
+      return;
+    }
     setBillListAdding([{ title: "الغرض", price: 0 }]);
     setAddBillForm(false);
     setReloadPercheses("sd");
   }
-  const inputRef = useRef();
 
-  const handleClick = () => {
-    inputRef.current.select();
-  };
   return (
     <>
       {showBillForm && (
         <div className="add-bill">
           <div className="w-100 f-c-c-c">
-            <div className="w-100 close-form">
-              <button
-                onClick={() => {
-                  setAddBillForm(false);
-                }}
-              >
-                <img src="unpaid.png" alt="" />
-              </button>
-            </div>
             <div className="add-bill-form">
               {billListAdding.map((item, ind) => (
                 <div className="addBillSinglItem" key={ind}>
+                  <div className=" ">
+                    <button
+                      onClick={() => {
+                        const updatedList = [...billListAdding]; // انسخ المصفوفة
+                        updatedList.splice(ind, 1); // احذف العنصر بالفهرس
+                        setBillListAdding(updatedList); // حدّث الحالة
+                      }}
+                    >
+                      <img src="unpaid.png" alt="" />
+                    </button>
+                  </div>
                   <label htmlFor="itemTitle">الغرض</label>
                   <input
                     type="text"
                     name="itemTitle"
                     id=""
                     value={item.title}
-                    onClick={handleClick}
-                    ref={inputRef}
+                    onClick={(e) => e.target.select()}
                     onChange={(e) => {
                       const newList = [...billListAdding];
                       newList[ind].title = e.target.value;
@@ -73,23 +73,32 @@ function AddBill() {
                 onClick={() =>
                   setBillListAdding([
                     ...billListAdding,
-                    { title: "الاسم", qty: 1, price: 0 },
+                    { title: "", qty: 1, price: 0 },
                   ])
                 }
               >
                 إضافة غرض
               </button>
             </div>
-
-            <button className="addItemBtn" onClick={saveBill}>
-              حفظ الفاتروة
-            </button>
+            <div className="form-btns">
+              <button className="addItemBtn" onClick={saveBill}>
+                حفظ
+              </button>
+              <button
+                className="addItemBtn"
+                onClick={() => {
+                  setAddBillForm(false);
+                }}
+              >
+                الغاء
+              </button>
+            </div>
           </div>
         </div>
       )}
 
       <div className="add-btn-box">
-        <button className="add-btn" onClick={addBillButton}>
+        <button onClick={addBillButton}>
           <img src="add.png" width="30px" />
         </button>
       </div>

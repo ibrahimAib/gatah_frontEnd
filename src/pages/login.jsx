@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { login } from "../server/api";
-
+import SmallLoading from "../components/SmallLoading";
+import "../css/login.css";
 function LoginPage() {
   const [phone, setphone] = useState("");
   const [password, setPassword] = useState("");
-
+  const [isLoading, setIsloading] = useState(false);
   const handleSubmit = (e) => {
+    document.getElementById("login-button").classList.add("gray");
     e.preventDefault();
-    login(phone, password);
+    login(phone, password, setIsloading);
   };
 
   return (
@@ -29,8 +31,8 @@ function LoginPage() {
           style={styles.input}
           required
         />
-        <button type="submit" style={styles.button}>
-          دخول
+        <button type="submit" id="login-button" style={styles.button}>
+          {isLoading ? <SmallLoading /> : "دخول"}
         </button>
       </form>
     </div>

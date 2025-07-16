@@ -10,8 +10,10 @@ function Purchases() {
       <PurchesesProvider>
         <Title title="المشتريات:" img="purchases" />
         <AddBill />
-        <div className="purchases">
-          <PurchasesBox />
+        <div className="purchases-container">
+          <div className="purchases">
+            <PurchasesBox />
+          </div>
         </div>
       </PurchesesProvider>
     </>

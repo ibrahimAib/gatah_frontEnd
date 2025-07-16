@@ -23,8 +23,6 @@ function App() {
   return (
     <>
       <main className="main">
-        {location.pathname !== "/login" && <NavBar />}
-
         <GroupListProvider>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -33,6 +31,7 @@ function App() {
             <Route path="*" element={<Home />} />
           </Routes>
         </GroupListProvider>
+        {location.pathname !== "/login" && <NavBar />}
       </main>
     </>
   );

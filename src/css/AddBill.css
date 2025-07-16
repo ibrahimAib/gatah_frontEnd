@@ -5,6 +5,7 @@
     height: 100vh;
     animation: show 0.1s;
     background-color: #1e2024;
+    padding-top: 10px;
 }
 
 .add-bill-form{
@@ -15,10 +16,11 @@
     height:fit-content;
     background-color: rgb(34, 34, 34, 0.3);
     padding: 20px;
+    padding-top:0;
     display: flex;
     flex-direction: column;
     box-shadow: 3px 3px 15px 0 rgb(27, 27, 27);
-    max-height: 50vh;
+    max-height: 75vh;
     overflow: scroll;
 
 }
@@ -45,15 +47,8 @@
 }
 
 
-.add-btn-box{
-    display: flex;
-    padding: 10px;
-    width: 100%;
-}
 
 .close-form{
-    
-    margin-right: 50px;
     position: relative;
     top: 10px;
 }
@@ -63,7 +58,12 @@
     flex-direction: column;
     margin-top: 15px;
     padding-bottom: 10px;
-    border-bottom: solid 0.3px rgb(78, 78, 78);
+    padding-top: 10px;
+    border: solid 1px rgb(78, 78, 78);
+    border-bottom: none;
+    border-right: none;
+    border-left: none;
+    
 }
 
 .addItemBtn{
@@ -80,4 +80,10 @@
 .addItemBtn:hover{
     cursor: pointer;
     background-color:#39576d;
+}
+
+.form-btns{
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
 }
