@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../css/AddBill.css";
 import { submitBill } from "../server/api";
 import { usePurchesesContext } from "../contexts/PurchesesContex";
+
 function AddBill() {
   const { setReloadPercheses } = usePurchesesContext();
   const [showBillForm, setAddBillForm] = useState(false);
@@ -12,6 +13,11 @@ function AddBill() {
     setAddBillForm(true);
   };
   async function saveBill() {
+    console.log(billListAdding.length);
+    if (billListAdding.length == 0) {
+      alert("لا يمكن إضافة فاتورة فارغة!!");
+      return;
+    }
     let localResponce = await submitBill(billListAdding);
     if (localResponce == "erorr") {
       return;
@@ -28,17 +34,26 @@ function AddBill() {
           <div className="w-100 f-c-c-c">
             <div className="add-bill-form">
               {billListAdding.map((item, ind) => (
-                <div className="addBillSinglItem" key={ind}>
+                <div
+                  className={`addBillSinglItem ${
+                    ind == 0 ? "none-border" : ""
+                  }`}
+                  key={ind}
+                >
                   <div className=" ">
-                    <button
-                      onClick={() => {
-                        const updatedList = [...billListAdding]; // انسخ المصفوفة
-                        updatedList.splice(ind, 1); // احذف العنصر بالفهرس
-                        setBillListAdding(updatedList); // حدّث الحالة
-                      }}
-                    >
-                      <img src="unpaid.png" alt="" />
-                    </button>
+                    {ind == 0 ? (
+                      ""
+                    ) : (
+                      <button
+                        onClick={() => {
+                          const updatedList = [...billListAdding]; // انسخ المصفوفة
+                          updatedList.splice(ind, 1); // احذف العنصر بالفهرس
+                          setBillListAdding(updatedList); // حدّث الحالة
+                        }}
+                      >
+                        <img src="unpaid.png" alt="" />
+                      </button>
+                    )}
                   </div>
                   <label htmlFor="itemTitle">الغرض</label>
                   <input

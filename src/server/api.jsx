@@ -1,12 +1,12 @@
-// const FRONTEND_URL = "https://gatah.alowairdi.com/";
-const FRONTEND_URL = "https://gatah.alowairdi.com/";
-const BASE_API_URL = "https://darkgrey-viper-985923.hostingersite.com";
-const API_URL_V1 = `${BASE_API_URL}/api/v1`;
-const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN")
+export const FRONTEND_URL = "https://gatah.alowairdi.com";
+export const BASE_API_URL = "https://gatah-api.alowairdi.com";
+export const API_URL_V1 = `${BASE_API_URL}/api/v1`;
+export const ACCESS_TOKEN = localStorage.getItem("ACCESS_TOKEN")
   ? `Bearer ${localStorage.getItem("ACCESS_TOKEN")}`
   : "";
-const HEADERS = {
+export const HEADERS = {
   "Content-Type": "application/json",
+  Accept: "application/json",
   Authorization: ACCESS_TOKEN,
 };
 export const getGatah = async (month) => {
@@ -96,37 +96,10 @@ export const getBills = async () => {
   return data.data;
 };
 
-export const login = async (phone, password, setIsloading) => {
-  setIsloading(true);
-  const response = await fetch(`${BASE_API_URL}/api/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      phone: phone,
-      password: password,
-    }),
-  });
-  if (response.status == 401) {
-    let message = "خطأ في رقم الجوال او كلمة المرور!!";
-    console.log(message);
-    setIsloading(false);
-    return message;
-  }
-
-  const data = await response.json();
-  localStorage.setItem("ACCESS_TOKEN", data.token);
-  localStorage.setItem("userphone", data.phone);
-  localStorage.setItem("RESPONCE_STSTUS", 200);
-  window.location.href = FRONTEND_URL;
-  console.log(data.token);
-  setIsloading(false);
-};
-
 export const auth_error = async (res) => {
   if (!res.ok) {
-    console.log(res.status);
     localStorage.setItem("RESPONCE_STSTUS", res.status);
-    await setTimeout((window.location.href = `${FRONTEND_URL}login`), 1000);
+    await setTimeout((window.location.href = `${FRONTEND_URL}/login`), 1000);
     return;
   }
 };

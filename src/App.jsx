@@ -1,12 +1,13 @@
 import Home from "./pages/Home";
+import PayList from "./pages/PayList";
+import Purchases from "./pages/Purchases";
+import LoginPage from "./pages/login";
+import Account from "./pages/Account";
+
 import NavBar from "./components/Navbar";
 import { Navigate, Route, Routes } from "react-router-dom";
 import "./css/main.css";
-import Title from "./components/Title";
-import PayList from "./pages/PayList";
 import { GroupListProvider } from "./contexts/GroupContext";
-import Purchases from "./pages/Purchases";
-import LoginPage from "./pages/login";
 if (!localStorage.getItem("ACCESS_TOKEN")) {
   // window.location.href = "http://localhost:5173/login";
 }
@@ -28,6 +29,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/paylist" element={<PayList />} />
             <Route path="/purchases" element={<Purchases />} />
+            <Route path="/account" element={<Account />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </GroupListProvider>

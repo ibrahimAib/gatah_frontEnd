@@ -39,7 +39,9 @@ height: 73vh;
     border-radius: 10px;
     font-size: 15px;
 }
-
+.menubar-name{
+    width: 100px;
+}
 .menubar img{
     width: 25px;
 }

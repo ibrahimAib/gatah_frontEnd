@@ -20,7 +20,7 @@ function Home() {
   }, []);
 
   const balanceH = 0;
-  const { allUnPaid, setAllUnPaid, currentMounth, isGroupListLoading } =
+  const { allUnPaid, setAllUnPaid, isGroupListLoading } =
     useGroupListContext();
   return (
     <>

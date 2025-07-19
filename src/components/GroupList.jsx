@@ -54,7 +54,7 @@ function GroupList({
           return (
             <div key={index} className="member-block">
               <div className="menubar">
-                <span>{menubar.name}</span>
+                <span className="menubar-name">{menubar.name}</span>
 
                 {allLiset && <span>{menubar.date}</span>}
                 {menubar.phone == userphone &&

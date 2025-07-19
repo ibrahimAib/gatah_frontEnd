@@ -65,6 +65,9 @@
     border-left: none;
     
 }
+.none-border{
+    border: none;
+}
 
 .addItemBtn{
     display: flex;

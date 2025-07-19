@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { login } from "../server/api";
+import { login } from "../server/user";
 import SmallLoading from "../components/SmallLoading";
 import "../css/login.css";
 function LoginPage() {
   const [phone, setphone] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsloading] = useState(false);
+  const [erorrMessage, setErorrMessage] = useState(false);
   const handleSubmit = (e) => {
-    document.getElementById("login-button").classList.add("gray");
+    setErorrMessage(false);
     e.preventDefault();
-    login(phone, password, setIsloading);
+    login(phone, password, setIsloading, setErorrMessage);
   };
 
   return (
@@ -31,7 +32,19 @@ function LoginPage() {
           style={styles.input}
           required
         />
-        <button type="submit" id="login-button" style={styles.button}>
+        {erorrMessage ? (
+          <label htmlFor="login-button" style={{ color: "red" }}>
+            رقم الجوال او كلمة المرور خطأ!
+          </label>
+        ) : (
+          ""
+        )}
+        <button
+          type="submit"
+          id="login-button"
+          style={styles.button}
+          className={isLoading ? "gray" : ""}
+        >
           {isLoading ? <SmallLoading /> : "دخول"}
         </button>
       </form>

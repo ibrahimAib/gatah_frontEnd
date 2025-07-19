@@ -1,0 +1,136 @@
+/* ألوان مستخرجة من الثيم */
+:root {
+    --main-bg: #2f3033;
+    --main-color: #3b3f42;
+    --accent: #3c3f42;
+    --text-color: #ffffff;
+    --input-bg: #4a4c4f;
+    --btn-color: #4672fe;
+}
+
+
+.account{
+    height: 78vh;
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+}
+.container {    
+    width: 100%;
+    border: 1px solid var(--main-color);
+    border-radius: 10px;
+    background-color: var(--main-bg);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.logout-container{
+    height: 80px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.account-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 40px;
+
+}
+
+.account-title {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.3rem;
+}
+
+.account-form {
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-form label {
+    margin-bottom: 15px;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.account-form input {
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-top: 6px;
+    border: 1px solid #666;
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    text-align: right;
+}
+
+.account-form input::placeholder {
+    color: #ccc;
+}
+
+.account-btn {
+    background-color: var(--btn-color);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+    height: 35px;
+}
+
+.account-btn:hover {
+    background-color: #2b60d3;
+}
+
+.logout-btn{
+    width: 120px;
+    background-color: #d44c4c;
+}
+.update-account-btn{
+    width: 80px;
+    margin-top: 10px;
+
+}
+
+.logout-btn:hover{
+    background-color: #b63b3b;
+}
+
+.gray{
+    background-color: gray;
+    align-items: center;
+    min-width: 80px;
+}
+
+.green{
+    background-color: rgb(49, 145, 92);
+    width: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    animation: update 0.5s forwards ;
+}
+
+@keyframes update {
+    from{
+        width: 80px;
+        background-color: gray;
+    }
+    to{
+        width: 35px;
+        background-color: rgb(49, 145, 92);
+    }
+}
