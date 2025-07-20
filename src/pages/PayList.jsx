@@ -3,26 +3,30 @@ import "../css/PayList.css";
 import GroupList from "../components/GroupList";
 import { useGroupListContext } from "../contexts/GroupContext";
 import Loading from "../components/Loading";
+import { useEffect } from "react";
 
 function PayList() {
   const {
-    currentMounth,
-    lastMounth,
+    currentMonth,
+    lastMonth,
     groupList,
     setGroupList,
     previousGroupList,
     setPreviousGroupList,
-    allUnPaidPasstMonths,
+    allUnPaidPastMonths,
     payRequest,
     payButtons,
     isGroupListLoading,
     isPreviousGroupListLoading,
     isAllUnPaidPasstMonthsLoading,
+    setPayButtons,
   } = useGroupListContext();
-
+  useEffect(() => {
+    setPayButtons(payButtons);
+  }, [payButtons]);
   return (
     <>
-      <Title title={`قطة شهر ${currentMounth}:`} img="saudic" />
+      <Title title={`القطة:`}/>
       {
         <>
           <div className="pay-puttons">
@@ -47,7 +51,7 @@ function PayList() {
                 groupList={groupList}
                 monthOrder="current"
                 setGroupList={setGroupList}
-                month={currentMounth}
+                month={currentMonth}
               />
             )}
             <span style={{ display: "block", height: "15px" }}></span>
@@ -63,13 +67,13 @@ function PayList() {
                   groupList={previousGroupList}
                   monthOrder="previous"
                   setGroupList={setPreviousGroupList}
-                  month={lastMounth}
+                  month={lastMonth}
                 />
               )
             ) : (
               ""
             )}
-            {allUnPaidPasstMonths.length != 0 ? (
+            {allUnPaidPastMonths.length != 0 ? (
               isAllUnPaidPasstMonthsLoading ? (
                 !isPreviousGroupListLoading ? (
                   <Loading />
@@ -78,10 +82,10 @@ function PayList() {
                 )
               ) : (
                 <GroupList
-                  groupList={allUnPaidPasstMonths}
+                  groupList={allUnPaidPastMonths}
                   monthOrder="previous"
                   setGroupList={setPreviousGroupList}
-                  month={lastMounth - 1 + " " + "وماقبل"}
+                  month={lastMonth - 1 + " " + "وماقبل"}
                   home="home-page-group-previous"
                   allLiset={true}
                 />

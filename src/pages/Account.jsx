@@ -7,7 +7,7 @@ import Logout from "../components/Logout";
 function Account() {
   return (
     <>
-      <Title title="المستخدم" img="account" alt="" />
+      <Title title="المستخدم" alt="" />
       <div className="account">
         <span style={{ display: "block", height: "15px" }}></span>
         <AccountUpdate />

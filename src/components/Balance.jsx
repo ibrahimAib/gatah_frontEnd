@@ -1,7 +1,6 @@
 function Balance({ balanceR, balanceH }) {
   const safeBalanceR = Number(balanceR) || 0;
   const safeBalanceH = Number(balanceH) || 0;
-  console.log(0);
 
   return (
     <div className="balance-box">

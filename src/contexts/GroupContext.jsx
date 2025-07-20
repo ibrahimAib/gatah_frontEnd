@@ -1,6 +1,7 @@
-import { createContext, use, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { getGatah, getPastGatahs, submitGatah } from "../server/api";
 
+// ✅ تغيير الاسم للتناسق
 const GroupListContext = createContext();
 
 export const useGroupListContext = () => useContext(GroupListContext);
@@ -8,157 +9,151 @@ export const useGroupListContext = () => useContext(GroupListContext);
 export const GroupListProvider = ({ children }) => {
   const [groupList, setGroupList] = useState([]);
   const [previousGroupList, setPreviousGroupList] = useState([]);
-  const [allUnPaidPasstMonths, setAllUnPaidPasstMonths] = useState([]);
+  const [allUnPaidPastMonths, setAllUnPaidPastMonths] = useState([]); // ✅ تصحيح: Passt → Past
   const [allUnPaid, setAllUnPaid] = useState([]);
 
   const [currentDate, setCurrentDate] = useState("");
   const [pastDate, setPastDate] = useState("");
-  const [currentMounth, setCurrentMounth] = useState();
-  const [lastMounth, setLastMounth] = useState();
+  const [currentMonth, setCurrentMonth] = useState(); // ✅ تصحيح: Mounth → Month
+  const [lastMonth, setLastMonth] = useState(); // ✅
   const [payButtons, setPayButtons] = useState([]);
 
-  // const [isLoading, setIsLoading] = useState(false);
   const [isGroupListLoading, setIsGroupListLoading] = useState(false);
   const [isPreviousGroupListLoading, setIsPreviousGroupListLoading] =
     useState(false);
-  const [isAllUnPaidPasstMonthsLoading, setIsAllUnPaidPasstMonthsLoading] =
+  const [isAllUnPaidPastMonthsLoading, setIsAllUnPaidPastMonthsLoading] =
     useState(false);
-  const [updatePayButtons, setUpdatePayButtons] = useState(1);
-  // get time ===============================================
+  const [reloadPayButtonsToggle, setReloadPayButtonsToggle] = useState(1); // ✅ تغيير اسم أوضح
+
+  // ✅ تحديد التاريخ الحالي والسابق
   useEffect(() => {
     const today = new Date();
     const month = today.getMonth() + 1;
-    const currentDateLocal = `${today.getFullYear()}-${String(
-      today.getMonth() + 1
-    ).padStart(2, "0")}`;
-    const pastDateLocal = `${today.getFullYear()}-${String(
-      today.getMonth()
-    ).padStart(2, "0")}`;
 
-    setCurrentMounth(month);
-    setLastMounth(month - 1);
-
-    setCurrentDate(currentDateLocal);
-    setPastDate(pastDateLocal);
+    setCurrentMonth(month);
+    setLastMonth(month - 1);
+    setCurrentDate(`${today.getFullYear()}-${String(month).padStart(2, "0")}`);
+    setPastDate(`${today.getFullYear()}-${String(month - 1).padStart(2, "0")}`);
   }, []);
 
-  useEffect(() => {
-    const userphone = localStorage.getItem("userphone");
-    let combined = [
-      ...groupList,
-      ...previousGroupList,
-      ...allUnPaidPasstMonths,
-    ];
-
-    // Filter and deduplicate
-    const filtered = combined
-      .filter((user) => user.phone === userphone && user.isPaid === "unpaid")
-      .reduce((acc, curr) => {
-        // Keep only one item per date
-        if (!acc.find((item) => item.date === curr.date)) {
-          acc.push({ id: curr.user_id, date: curr.date });
-        }
-        return acc;
-      }, []);
-
-    setPayButtons(filtered);
-  }, [groupList, previousGroupList, allUnPaidPasstMonths]);
-
+  // ✅ تحميل البيانات الحالية والسابقة
   useEffect(() => {
     const loadGroupList = async (month, setter, setIsLoading) => {
       setIsLoading(true);
       try {
-        let groupListResult = await getGatah(month);
+        let result = await getGatah(month);
         const statusOrder = { paid: 0, review: 1, unpaid: 2 };
-        groupListResult.sort(
-          (a, b) => statusOrder[a.isPaid] - statusOrder[b.isPaid]
-        );
-        setter(groupListResult);
+        result.sort((a, b) => statusOrder[a.isPaid] - statusOrder[b.isPaid]);
+        setter(result);
       } catch (err) {
         console.log(err);
       }
       setIsLoading(false);
     };
-    if (currentDate)
+
+    if (currentDate) {
       loadGroupList(currentDate, setGroupList, setIsGroupListLoading);
-    if (pastDate)
+    }
+    if (pastDate) {
       loadGroupList(
         pastDate,
         setPreviousGroupList,
         setIsPreviousGroupListLoading
       );
-  }, [currentDate, pastDate, updatePayButtons, updatePayButtons]);
+    }
+  }, [currentDate, pastDate, reloadPayButtonsToggle]); // ✅ حذف التكرار في dependency
 
+  // ✅ تحميل كل الأشهر غير المدفوعة
   useEffect(() => {
-    const loadAllUnPaidPasstMonths = async (month, setter, setIsLoading) => {
+    const loadAllUnPaidPastMonths = async (month, setter, setIsLoading) => {
       setIsLoading(true);
       try {
-        let groupListResult = await getPastGatahs(month);
+        let result = await getPastGatahs(month);
         const statusOrder = { review: 0, unpaid: 1 };
-        groupListResult.sort(
-          (a, b) => statusOrder[a.isPaid] - statusOrder[b.isPaid]
-        );
-        setter(groupListResult);
+        result.sort((a, b) => statusOrder[a.isPaid] - statusOrder[b.isPaid]);
+        setter(result);
       } catch (err) {
         console.log(err);
       }
       setIsLoading(false);
     };
-    if (currentDate)
-      loadAllUnPaidPasstMonths(
+
+    if (currentDate) {
+      loadAllUnPaidPastMonths(
         currentDate,
-        setAllUnPaidPasstMonths,
-        setIsAllUnPaidPasstMonthsLoading
+        setAllUnPaidPastMonths,
+        setIsAllUnPaidPastMonthsLoading
       );
-  }, [currentDate, updatePayButtons]);
+    }
+  }, [currentDate, reloadPayButtonsToggle]);
 
+  // ✅ دمج وفرز الكل لزر الدفع حسب التاريخ والمستخدم
   useEffect(() => {
-    // sort the groupList
-    const statusOrder = { unpaid: 0, review: 1, paid: 2 };
+    const userphone = localStorage.getItem("userphone");
+    let combined = [...groupList, ...previousGroupList, ...allUnPaidPastMonths];
 
+    const filtered = [];
+    combined.forEach((user) => {
+      if (user.phone === userphone && user.isPaid === "unpaid") {
+        if (!filtered.some((item) => item.date === user.date)) {
+          filtered.push({ id: user.user_id, date: user.date });
+        }
+      }
+    });
+
+    setPayButtons(filtered);
+  }, [groupList, previousGroupList, allUnPaidPastMonths]);
+
+  // ✅ ترتيب القائمة حسب الحالة فقط إذا تغير الترتيب فعلاً
+  useEffect(() => {
+    const statusOrder = { unpaid: 0, review: 1, paid: 2 };
     const sortedArray = [...groupList].sort(
       (a, b) => statusOrder[a.isPaid] - statusOrder[b.isPaid]
     );
-    const isEqual = groupList.every(
-      (item, index) => item === sortedArray[index]
-    );
+    const isEqual = groupList.every((item, i) => item === sortedArray[i]);
 
     if (!isEqual) {
       setGroupList(sortedArray);
     }
   }, [groupList]);
 
+  // ✅ إنشاء قائمة بكل العناصر الغير مدفوعة
   useEffect(() => {
-    setAllUnPaid(
-      [...groupList, ...previousGroupList, ...allUnPaidPasstMonths].filter(
-        (item) => item.isPaid !== "paid"
-      )
-    );
-  }, [groupList, previousGroupList, allUnPaidPasstMonths]);
+    const all = [
+      ...groupList,
+      ...previousGroupList,
+      ...allUnPaidPastMonths,
+    ].filter((item) => item.isPaid !== "paid");
+    setAllUnPaid(all);
+  }, [groupList, previousGroupList, allUnPaidPastMonths]);
 
-  const payRequest = async (user_id, date) => {
-    let body = {
-      date: date,
-      user_id: user_id,
-    };
-    submitGatah(body);
-    setUpdatePayButtons(updatePayButtons == 1 ? 2 : 1);
+  // ✅ إرسال طلب الدفع
+  const handlePayRequest = async (user_id, date) => {
+    const body = { date, user_id };
+    try {
+      await submitGatah(body); // ✅ إضافة await
+      setReloadPayButtonsToggle((prev) => (prev === 1 ? 2 : 1)); // ✅ تعديل التبديل
+    } catch (err) {
+      console.log("submitGatah error:", err);
+    }
   };
+
   const value = {
     groupList,
     setGroupList,
     previousGroupList,
     setPreviousGroupList,
-    currentMounth,
-    lastMounth,
-    allUnPaidPasstMonths,
+    currentMonth,
+    lastMonth,
+    allUnPaidPastMonths,
     isGroupListLoading,
     isPreviousGroupListLoading,
-    isAllUnPaidPasstMonthsLoading,
+    isAllUnPaidPastMonthsLoading,
     payButtons,
-    payRequest,
+    handlePayRequest,
     allUnPaid,
-    setAllUnPaid
+    setAllUnPaid,
+    setPayButtons,
   };
 
   return (
@@ -167,119 +162,3 @@ export const GroupListProvider = ({ children }) => {
     </GroupListContext.Provider>
   );
 };
-
-// const [groupList, setGroupList] = useState([
-//   {
-//     name: "المؤسس",
-//     phone: "0550070510",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو عبدالملك",
-//     phone: "0551290287",
-//     isPaid: "unpaid",
-//   },
-//   {
-//     name: "إبراهيم",
-//     phone: "0533301365",
-//     isPaid: "unpaid",
-//   },
-//   {
-//     name: "أبو حسام",
-//     phone: "0551861378",
-//     isPaid: "review",
-//   },
-//   {
-//     name: "الياس",
-//     phone: "0582222565",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "عاصم بيك",
-//     phone: "0555266068",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو نورة",
-//     phone: "533552258",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو تميم",
-//     phone: "0535356750",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو المثنى",
-//     phone: "0554476605",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو سلمان",
-//     phone: "0532960686",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو أوس",
-//     phone: "0556817126",
-//     isPaid: "unpaid",
-//   },
-// ]);
-
-// const [previousGroupList, setPreviousGroupList] = useState([
-//   {
-//     name: "المؤسس",
-//     phone: "0550070510",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو عبدالملك",
-//     phone: "0551290287",
-//     isPaid: "unpaid",
-//   },
-//   {
-//     name: "أبو حسام",
-//     phone: "0551861378",
-//     isPaid: "review",
-//   },
-//   {
-//     name: "الياس",
-//     phone: "0582222565",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "عاصم بيك",
-//     phone: "0555266068",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو نورة",
-//     phone: "533552258",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو تميم",
-//     phone: "0535356750",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو المثنى",
-//     phone: "0554476605",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو سلمان",
-//     phone: "0532960686",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "أبو أوس",
-//     phone: "0556817126",
-//     isPaid: "paid",
-//   },
-//   {
-//     name: "إبراهيم",
-//     phone: "0533301365",
-//     isPaid: "unpaid",
-//   },
-// ]);

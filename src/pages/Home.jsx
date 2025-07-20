@@ -24,7 +24,7 @@ function Home() {
     useGroupListContext();
   return (
     <>
-      <Title title="الرئيسية" img="home" alt="" />
+      <Title title="الرئيسية"/>
       <div className="home">
         <Balance balanceR={balanceR} balanceH={balanceH} />
         <span style={{ display: "block", height: "15px" }}></span>

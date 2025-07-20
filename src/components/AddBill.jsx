@@ -1,10 +1,10 @@
 import { useState } from "react";
 import "../css/AddBill.css";
 import { submitBill } from "../server/api";
-import { usePurchesesContext } from "../contexts/PurchesesContex";
+import { usePurchasesContext } from "../contexts/PurchasesContex";
 
 function AddBill() {
-  const { setReloadPercheses } = usePurchesesContext();
+  const { setReloadPurchases } = usePurchasesContext();
   const [showBillForm, setAddBillForm] = useState(false);
   const [billListAdding, setBillListAdding] = useState([
     { title: "", price: 0 },
@@ -24,7 +24,7 @@ function AddBill() {
     }
     setBillListAdding([{ title: "الغرض", price: 0 }]);
     setAddBillForm(false);
-    setReloadPercheses("sd");
+    setReloadPurchases("sd");
   }
 
   return (

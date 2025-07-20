@@ -1,37 +1,39 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getBills } from "../server/api";
 
-const PurchesesContext = createContext();
+const PurchasesContext = createContext();
 
-export const usePurchesesContext = () => useContext(PurchesesContext);
+export const usePurchasesContext = () => useContext(PurchasesContext);
 
-export const PurchesesProvider = ({ children }) => {
+export const PurchasesProvider = ({ children }) => {
   const [purchasesList, setPurchasesList] = useState([]);
-  const [reloadPercheses, setReloadPercheses] = useState("");
+  const [reloadPurchases, setReloadPurchases] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     const loadBills = async () => {
       setIsLoading(true);
       try {
-        const billsResualt = await getBills();
-        setPurchasesList(billsResualt.reverse()); // ✅ هنا التصحيح
+        const billsResult = await getBills();
+        setPurchasesList(billsResult.reverse());
       } catch (error) {
         console.log(error);
       }
       setIsLoading(false);
     };
     loadBills();
-  }, [reloadPercheses]);
+  }, [reloadPurchases]);
+
   const value = {
     purchasesList,
-    setReloadPercheses,
+    setReloadPurchases,
     isLoading,
     setPurchasesList,
   };
 
   return (
-    <PurchesesContext.Provider value={value}>
+    <PurchasesContext.Provider value={value}>
       {children}
-    </PurchesesContext.Provider>
+    </PurchasesContext.Provider>
   );
 };

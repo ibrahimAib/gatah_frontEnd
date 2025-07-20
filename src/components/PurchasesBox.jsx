@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { usePurchesesContext } from "../contexts/PurchesesContex";
+import { usePurchasesContext } from "../contexts/PurchasesContex";
 import Loading from "./Loading";
 import SmallLoading from "./SmallLoading";
 import { deleteBill } from "../server/api";
 function PurchasesBox() {
-  const { purchasesList, setPurchasesList, isLoading } = usePurchesesContext();
+  const { purchasesList, setPurchasesList, isLoading } = usePurchasesContext();
   const [isDeleteBillLoading, setIsDeleteBillLoading] = useState(false);
   const [deleteConfirmationBox, setDeleteConfirmationBox] = useState(false);
   const [billDeletingId, setBillDeletingId] = useState();
@@ -14,7 +14,7 @@ function PurchasesBox() {
     setDeleteConfirmationBox(true);
   };
   async function handeldeleteBill(e) {
-     e.currentTarget.classList.add('gray');
+    e.currentTarget.classList.add("gray");
     setIsDeleteBillLoading(true);
 
     try {
